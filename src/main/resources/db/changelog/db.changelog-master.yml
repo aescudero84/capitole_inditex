@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: classpath:db/changelog/changes/create-brands-table-changelog.xml
+  - include:
+      file: classpath:db/changelog/changes/create-products-table-changelog.xml
+  - include:
+      file: classpath:db/changelog/changes/create-price-lists-table-changelog.xml
+  - include:
+      file: classpath:db/changelog/changes/create-prices-table-changelog.xml

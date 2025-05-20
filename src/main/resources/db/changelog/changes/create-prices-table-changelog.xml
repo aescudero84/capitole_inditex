@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="liquibase" id="create_sequence-prices">
+        <createSequence cycle="false"
+                        incrementBy="1"
+                        maxValue="999999999"
+                        minValue="1"
+                        ordered="true"
+                        sequenceName="PRICES_SEQUENCE"
+                        startValue="1"/>
+        <rollback>
+            <dropSequence sequenceName="PRICES_SEQUENCE"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="create_table-prices">
+        <createTable tableName="PRICES">
+            <column name="ID" type="NUMBER(9)" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="START_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="END_DATE" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <!-- foreign keys -->
+            <column name="BRAND_ID" type="NUMBER(9)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_BRAND_ID"
+                             references="BRANDS(ID)"/>
+            </column>
+            <column name="PRODUCT_ID" type="NUMBER(9)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_PRODUCT_ID"
+                             references="PRODUCTS(ID)"/>
+            </column>
+            <column name="PRICE_LIST_ID" type="NUMBER(9)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_PRICE_LIST_ID"
+                             references="PRICE_LISTS(ID)"/>
+            </column>
+            <column name="PRIORITY" type="NUMBER(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRICE" type="DECIMAL(11,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CURRENCY" type="VARCHAR(3)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="PRICES"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="initialize_table-prices">
+        <insert tableName="PRICES">
+            <column name="START_DATE" value="2020-06-14 00:00:00"/>
+            <column name="END_DATE" value="2020-12-31 23:59:59"/>
+            <column name="BRAND_ID" value="1"/>
+            <column name="PRODUCT_ID" value="35455"/>
+            <column name="PRICE_LIST_ID" value="1"/>
+            <column name="PRIORITY" value="0"/>
+            <column name="PRICE" value="35.50"/>
+            <column name="CURRENCY" value="EUR"/>
+        </insert>
+        <insert tableName="PRICES">
+            <column name="START_DATE" value="2020-06-14 15:00:00"/>
+            <column name="END_DATE" value="2020-06-14 18:30:00"/>
+            <column name="BRAND_ID" value="1"/>
+            <column name="PRODUCT_ID" value="35455"/>
+            <column name="PRICE_LIST_ID" value="2"/>
+            <column name="PRIORITY" value="1"/>
+            <column name="PRICE" value="25.45"/>
+            <column name="CURRENCY" value="EUR"/>
+        </insert>
+        <insert tableName="PRICES">
+            <column name="START_DATE" value="2020-06-15 00:00:00"/>
+            <column name="END_DATE" value="2020-06-15 11:00:00"/>
+            <column name="BRAND_ID" value="1"/>
+            <column name="PRODUCT_ID" value="35455"/>
+            <column name="PRICE_LIST_ID" value="3"/>
+            <column name="PRIORITY" value="1"/>
+            <column name="PRICE" value="30.50"/>
+            <column name="CURRENCY" value="EUR"/>
+        </insert>
+        <insert tableName="PRICES">
+            <column name="START_DATE" value="2020-06-15 16:00:00"/>
+            <column name="END_DATE" value="2020-12-31 23:59:59"/>
+            <column name="BRAND_ID" value="1"/>
+            <column name="PRODUCT_ID" value="35455"/>
+            <column name="PRICE_LIST_ID" value="4"/>
+            <column name="PRIORITY" value="1"/>
+            <column name="PRICE" value="38.95"/>
+            <column name="CURRENCY" value="EUR"/>
+        </insert>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE PRICES
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

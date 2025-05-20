@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="liquibase" id="create_sequence-products">
+        <createSequence cycle="false"
+                        incrementBy="1"
+                        maxValue="999999999"
+                        minValue="1"
+                        ordered="true"
+                        sequenceName="PRODUCTS_SEQUENCE"
+                        startValue="1"/>
+        <rollback>
+            <dropSequence sequenceName="PRODUCTS_SEQUENCE"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="create_table-products">
+        <createTable tableName="PRODUCTS">
+            <column name="ID" type="NUMBER(9)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="PRODUCTS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="initialize_table-products">
+        <insert tableName="PRODUCTS">
+            <column name="ID" value="35455"/>
+            <column name="DESCRIPTION" value="Basic women yellow t-shirt"/>
+        </insert>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE PRODUCTS
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

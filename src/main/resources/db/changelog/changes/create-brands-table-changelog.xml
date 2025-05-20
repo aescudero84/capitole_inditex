@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="liquibase" id="create_sequence-brands">
+        <createSequence cycle="false"
+                        incrementBy="1"
+                        maxValue="999999999"
+                        minValue="1"
+                        ordered="true"
+                        sequenceName="BRANDS_SEQUENCE"
+                        startValue="1"/>
+        <rollback>
+            <dropSequence sequenceName="BRANDS_SEQUENCE"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="create_table-brands">
+        <createTable tableName="BRANDS">
+            <column name="ID" type="NUMBER(9)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="NAME" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <rollback>
+            <dropTable tableName="BRANDS"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="liquibase" id="initialize_table-brands">
+        <insert tableName="BRANDS">
+            <column name="ID" value="1"/>
+            <column name="NAME" value="ZARA"/>
+        </insert>
+        <rollback>
+            <sql>
+                TRUNCATE TABLE BRANDS
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
